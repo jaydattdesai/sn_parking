@@ -4,7 +4,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');  
 // var swig = require('swig');
-var HTMLing = require('htmling');                                  
 var app = express();             
 
 var fs = require('fs'); 
@@ -16,9 +15,6 @@ eval(fs.readFileSync('./scripts/search.js')+'');
 // app.set('view engine', 'html');    
 // app.set('views', __dirname + '/views');
 
-
-app.engine('html', HTMLing.express(__dirname + '/views/'));
-app.set('view engine', 'html');
 
 // app.set('views', __dirname + '/views');
 // app.use(express.static(__dirname + '/views'));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
@@ -111,7 +107,8 @@ app.get('/logout', function(req, res){
                                   
 app.get('/login', function(req, res){ 	
   req.session.error = 'Please Enter username and password';
-  res.render('login');            
+  // res.render('login');  
+  res.sendfile(__dirname + '/views/login.html')          
 });                               
                                   
 app.post('/login', function(req, res){     	
