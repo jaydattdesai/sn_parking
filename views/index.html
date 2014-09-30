@@ -1,0 +1,284 @@
+<html>
+  <head>
+    <script src="../bower_components/platform/platform.js"></script>
+
+    <link rel="import" href="../bower_components/core-scaffold/core-scaffold.html">
+    <link rel="import" href="../bower_components/core-header-panel/core-header-panel.html">
+    <link rel="import" href="../bower_components/core-menu/core-menu.html">
+    <link rel="import" href="../bower_components/core-item/core-item.html">
+    <link rel="import" href="../bower_components/core-icon-button/core-icon-button.html">
+    <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="../bower_components/core-field/core-field.html">
+    <link rel="import" href="../bower_components/core-icon/core-icon.html">
+    <link rel="import" href="../bower_components/core-input/core-input.html">
+    <link rel="import" href="../bower_components/core-icons/core-icons.html">
+    <link rel="import" href="../bower_components/speech-mic/speech-mic.html">
+    <link rel="import" href="../bower_components/core-menu/core-submenu.html">
+    <link rel="import" href="../bower_components/google-map/google-map.html">
+    <link rel="import" href="../bower_components/google-map/google-map-search.html">
+    <link rel="import" href="../bower_components/polymer-date-picker/polymer-date-picker.html">
+    <link rel="import" href="../bower_components/paper-button/paper-button.html">
+    <link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+    <link rel="import" href="../bower_components/sortable-table/sortable-table.html">
+
+  </head>
+<polymer-element name="sn-parking-element">
+ 
+  <template>
+    <link rel="stylesheet" href="../bower_components/sortable-table/css/bootstrap.css" shim-shadowdom>
+
+  	<style>    
+      :host {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+       #core_input {
+        /*padding: 5px;*/
+        /*left: 270px;*/
+        /*top: 190px;*/
+        /*position: absolute;*/
+        /*width: 30%;*/
+        /*height: 50px;*/
+        /*z-index: 1;*/
+        /*opacity: 0.9;*/
+        /*background-color: rgb(255, 255, 255);*/
+        /*border: 2px solid;*/
+        /*border-radius: 3px;*/
+        /*font-size: 14px;*/
+        /*border-color: #3D3D1F;*/       
+      }
+
+      #div1 {
+      	 margin-left: auto;         
+	    margin-right: auto;
+	    /*width: 70%;*/
+      border: 1px solid;
+      border-color: #8A8A5C;
+      font-size: medium;
+      z-index: 1;
+      }
+
+      .button1 {
+        /*border: 2px solid;*/
+        /*border-radius: 3px;*/
+        /*font-size: 14px;*/
+
+        background-color: #EBEBE0;          
+        margin: 0px;
+        display: inline-flex;
+      }
+
+      .searchButton {
+        /*border: 2px solid;*/
+        /*border-radius: 3px;*/
+        /*font-size: 14px;*/
+
+        background-color: #FF9933;          
+        margin: 0px;
+        display: inline-flex;
+      }
+
+      .dateButton {
+        /*border: 2px solid;*/
+        /*border-radius: 3px;*/
+        /*font-size: 14px;*/
+
+        background-color: #EBEBE0;  
+        border-color: #D6D6C2;     
+        margin: 0px;
+        display: inline-flex;
+        height: 30px;
+        width: 100px;
+        margin: 0px;
+      }
+
+      .arrow-down {
+        width: 0; 
+        height: 0; 
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        position: relative;
+        top: 10px;
+        left: 4px;
+        border-top: 5px solid black;
+      }
+
+       .arrow-down1 {
+        width: 0; 
+        height: 0; 
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        position: relative;
+        top: 19px;
+        left: 6px;
+        border-top: 5px solid black;
+      }
+
+      #speech_mic { 
+        margin: 0px;
+        display: inline-block !important;
+        height: 23px !important;
+      }
+
+       #google_map {
+        width: 100%;
+        height: 50%;
+        display: block;
+        position: relative;
+        /*top: 10%;*/
+        left: 0px;
+      }
+
+      #divBody {
+        width: 50%;
+        margin-top: 5%;        
+        margin-left: 25%        
+      }
+
+     
+    </style>
+	
+		<core-header-panel mode="seamed" id="core_header_panel" navigation flex>	    
+		     <core-toolbar id="core_toolbar">
+         <div id="div1">
+          
+          <core-icon-button src="images/icon_couch_travel.gif" id="core_icon" class="button1">
+          <div class="arrow-down"></div>
+          </core-icon-button>
+		    	
+            <core-input willvalidate placeholder="Where do you want to park...?" on-change="{{locationChanged}}" value="{{ $.speech_mic.transcript }}" id="core_input" flex></core-input>
+            <speech-mic id="speech_mic"></speech-mic>
+
+          <polymer-date-picker  id="datePickerFrom" selectedDate="{{selectedDateFrom}}" relatedTarget="{{$.triggerFrom}}" opened="{{openedFrom}}" class="date"></polymer-date-picker>
+          <!-- <core-button id="trigger" label="{{selectedDate}}" on-click="{{toggle}}" readonly class="dateButton">
+            <div class="arrow-down1"></div>
+          </core-button> -->
+          <!-- <input id="trigger" class="button1" value="{{selectedDate}}" on-click="{{toggle}}" readonly> -->
+          <paper-button id="triggerFrom" class="button1" label="{{selectedDateFrom}}" on-click="{{toggleFrom}}" readonly>
+            <div class="arrow-down"></div>
+          </paper-button>
+
+
+          <polymer-date-picker  id="datePickerTo" selectedDate="{{selectedDateTo}}" relatedTarget="{{$.triggerTo}}" opened="{{openedTo}}" class="date"></polymer-date-picker>
+           <paper-button id="triggerTo" class="button1" label="{{selectedDateTo}}" on-click="{{toggleTo}}" readonly>
+            <div class="arrow-down"></div>
+          </paper-button>
+
+           <core-icon-button on-click="{{locationChanged}}" src="images/star.png" id="core_icon" class="searchButton">          
+          </core-icon-button>
+          
+         
+          </div>          
+		    </core-toolbar>		 
+		</core-header-panel>
+    <div id="divBody" class="content">
+       <google-map latitude="{{ $.google_map_search.result.latitude }}" longitude="{{ $.google_map_search.result.longitude }}" zoom="13" showcentermarker disabledefaultui id="google_map">
+          <template id="locationTemplate" repeat="{{locations}}">     
+            <google-map-marker latitude="{{lat}}" longitude="{{lon}}"
+                       title="Parking area" draggable="true" icon="images/pointer_parking.png">
+            <!-- <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/4/49/San_Francisco_Giants_Cap_Insignia.svg/200px-San_Francisco_Giants_Cap_Insignia.svg.png" /> -->
+            </google-map-marker>
+          </template>
+        </google-map>
+        <google-map-search map="{{ $.google_map.map }}" query="{{ $.core_input.value }}" id="google_map_search"></google-map-search>
+
+   
+       <core-ajax id ="searchLocationAjax" url="http://127.0.0.1:8000/searchParking" 
+            params='{"alt":"json", "location":"{{searchValue}}"}'
+            handleAs="json"></core-ajax>    
+
+      <sortable-table
+          class="bootstrap"
+          footerTemplate="bootstrapPaging"
+          rowSelection
+          pageSize="5"
+          checkbox
+          multiSelect
+          data="{{locations}}"
+          id="locationTable"
+        >
+          <sortable-column cellTemplate="pinIcon">Pin</sortable-column>
+          <sortable-column name="location">Location</sortable-column>
+          <sortable-column name="cost">Cost</sortable-column>
+          
+          <template id="pinIcon">
+            <td style="padding:0;text-align:center;width:50px">
+              <core-icon style="width: 23px; height: 32px;" src="images/pointer_parking.png"></core-icon>
+            </td>
+          </template>         
+
+          <script type="text/javascript">
+           
+          </script>
+
+         
+    </sortable-table>
+
+
+    </div>
+    </template>
+ 
+  <script>
+ 
+    Polymer('sn-parking-element', {      
+
+      // locations : [
+      //       {location: 'apple', cost: 4, lat:'33.0',lon:'33.4'},
+      //       {location: 'apple', cost: 4, lat:'33.0',lon:'33.4'}
+      //     ],
+
+      changeToRoadmap: function () {
+        this.$.google_map.mapType = "roadmap";
+      },
+      changeToSatellite: function () {
+        this.$.google_map.mapType = "Satelliteellite";
+      },
+      locationChanged : function() {        
+        var locationTemplate = this.$.locationTemplate;
+        var locationTable  = this.$.locationTable;      
+        this.searchValue = this.$.core_input.value;
+
+        var searchLocationAjax = this.$.searchLocationAjax;        
+
+        searchLocationAjax.addEventListener('core-response', function(e) {                
+                
+        // reference: http://jsfiddle.net/falafelsoftware/8fa8g/
+        locationTemplate.model = {
+            locations: 
+                this.response.locations
+             
+        };
+
+        locationTable.data = this.response.locations;          
+                
+        });
+        searchLocationAjax.go();  
+      },
+
+      openedFrom : false,
+      openedTo : false,
+      toggleFrom: function() {        
+            this.$.datePickerFrom.toggle();                        
+      },
+      toggleTo: function() {        
+            this.$.datePickerTo.toggle();                        
+      },
+      open: function() {
+          this.$.datePicker.open();
+      },
+      search: function() {
+
+      }
+    });
+ 
+  </script>
+ 
+</polymer-element>
+
+<body>
+	<sn-parking-element></sn-parking-element>
+</body>
+</html>

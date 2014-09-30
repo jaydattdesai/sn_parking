@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<title>Parking</title>
+		<script src="../bower_components/platform/platform.js">
+		</script>
+
+		<link href="../bower_components/paper-input/paper-input.html" rel="import">
+		<link href="../bower_components/paper-button/paper-button.html" rel="import">
+		<!-- <link href="../bower_components/paper-form/paper-form.html" rel="import"> -->
+
+		<style>
+	    body {
+	      font-family: 'Roboto 2', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	      margin: 0;
+	      background: #f1f1f1;
+	    }
+
+	    topeka-rnd {
+	      display: block;
+	      position: absolute;
+	      top: 0;
+	      left: 0;
+	      bottom: 0;
+	      right: 0;
+	    }
+	  </style>
+	</head>
+
+<body>
+	<template is="auto-binding">
+		<form id="loginForm" name="loginForm" action="/login" method="post">
+		<paper-input id="uname" onchange="changeUsername(this)" label="Your Name"></paper-input>
+		<input type="hidden" id="username" name="username"/>
+		<paper-input  onchange="changePassword(this)" label="Your Password"></paper-input>
+		<input type="hidden" id="password" name="password"/>
+		<paper-button raisedButton label="Login" onclick="javascript:submitForm()"></paper-button>
+		</form>
+	</template>
+	
+	<script type="text/javascript">
+		function changeUsername(username){									
+			document.getElementById('username').value = username.value;
+		}
+		function changePassword(password){									
+			document.getElementById('password').value = password.value;
+		}
+		function submitForm(){
+			document.loginForm.submit();
+		}
+
+	</script>
+</body>
+</html>
