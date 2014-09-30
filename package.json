@@ -1,0 +1,17 @@
+{                                                                                                                                                                               
+  "name": "express-auth-example",                                                                                                                                               
+  "version": "0.0.1",                                                                                                                                                           
+  "description": "A sample code project demonstrating auth using express",                                                                                                      
+  "dependencies": {                                                                                                                                                             
+        "express": "*",  
+        "body-parser": "*",
+        "cookie-parser": "*",     
+        "express-session": "*",  
+        "jade": "*",
+        "swig":"*",                                                                                                                                                
+        "html": "*",
+        "htmling": "*",
+        "morgan":"*"                                                                                                                                                              
+   },                                                                                                                                                                           
+  "engine": "node >=0.6.x"                                                                                                                                                      
+}
