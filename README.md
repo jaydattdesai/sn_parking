@@ -1,6 +1,6 @@
 1) git clone
 
-2) cd sn_polymer
+2) cd sn_parking
 
 3) bower install
 
