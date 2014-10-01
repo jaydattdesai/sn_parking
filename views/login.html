@@ -31,18 +31,18 @@
 		<form id="loginForm" name="loginForm" action="/login" method="post">
 		<paper-input id="uname" onchange="changeUsername(this)" label="Your Name"></paper-input>
 		<input type="hidden" id="username" name="username"/>
-		<paper-input  onchange="changePassword(this)" label="Your Password"></paper-input>
+		<paper-input id="pass" onchange="changePassword(this)" label="Your Password"></paper-input>
 		<input type="hidden" id="password" name="password"/>
 		<paper-button raisedButton label="Login" onclick="javascript:submitForm()"></paper-button>
 		</form>
 	</template>
 	
 	<script type="text/javascript">
-		function changeUsername(username){									
-			document.getElementById('username').value = username.value;
+		function changeUsername(username){							
+			document.getElementById('username').value = document.getElementById('uname').value;
 		}
 		function changePassword(password){									
-			document.getElementById('password').value = password.value;
+			document.getElementById('password').value = document.getElementById('pass').value;
 		}
 		function submitForm(){
 			document.loginForm.submit();
